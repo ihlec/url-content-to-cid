@@ -1,0 +1,31 @@
+{
+    "name": "helia-url-to-cid",
+    "version": "1.0.0",
+    "private": true,
+    "type": "module",
+    "description": "Fetch URLs and get CIDs",
+    "license": "MIT",
+    "scripts": {
+        "start": "node get-cid-from-url.js",
+        "test": "test-node-example test/*"
+    },
+    "dependencies": {
+        "@chainsafe/libp2p-noise": "^16.0.0",
+        "@chainsafe/libp2p-yamux": "^7.0.1",
+        "@helia/http": "^2.0.0",
+        "@helia/unixfs": "^4.0.0",
+        "@libp2p/bootstrap": "^11.0.7",
+        "@libp2p/identify": "^3.0.7",
+        "@libp2p/tcp": "^10.0.8",
+        "blockstore-core": "^5.0.2",
+        "csv-parse": "^5.6.0",
+        "datastore-core": "^10.0.2",
+        "helia": "^5.0.0",
+        "libp2p": "^2.1.6",
+        "node-fetch": "^3.3.2",
+        "p-limit": "^6.1.0"
+    },
+    "devDependencies": {
+        "test-ipfs-example": "^1.0.0"
+    }
+}
