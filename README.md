@@ -14,4 +14,7 @@ Pinning and Provide currently removed
 
 ## Tips
 tweak the pLimit value when running into rate limits
-files are stored in the node's memory (much RAM needed)
+if all files are stored in the node's memory, much RAM is needed
+
+## Known Issues
+Failure on fetch 19983: 1949109,bafybeib6psc33ohgorrvxvhiy4lp2rm5bdcpadntqdczj7zqo7fugekvui -- unable to verify the first certificate

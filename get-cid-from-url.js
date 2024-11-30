@@ -5,8 +5,6 @@ import fetch from "node-fetch";
 import { parse } from "csv-parse";
 import pLimit from "p-limit";
 
-const helia = await createHeliaHTTP();
-let heliafs = unixfs(helia);
 // prevent rate limit errors with pLimit
 const limit = pLimit(10);
 const outputciddata = 'document, cid';
@@ -19,7 +17,19 @@ nodefs.writeFile('output.csv', outputciddata, (err) => {
 });
 
 async function downloadPDFandCalcCID(url, filename) {
-  const r = await fetch(url);
+  const helia = await createHeliaHTTP();
+  const heliafs = unixfs(helia);
+
+  let r;
+  try {
+    r = await fetch(url);
+    if (!r.ok) {
+      throw new Error(`HTTP error! status: ${r.status}`);   
+    }
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  }
+
   const b = await r.blob();
   const ab = await b.arrayBuffer();
 
@@ -38,6 +48,8 @@ async function downloadPDFandCalcCID(url, filename) {
 }
 
 async function processCSV(csvfilename) {
+
+
   try {
     nodefs
       .createReadStream(csvfilename)
