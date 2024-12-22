@@ -8,7 +8,17 @@ import pLimit from "p-limit";
 // prevent rate limit errors with pLimit
 const limit = pLimit(10);
 const outputciddata = 'document, cid';
+let failddownloadsstack = 'filename , url';
+
+// TODO: Output to Redis with RedisDB for persistency
 nodefs.writeFile('output.csv', outputciddata, (err) => {
+  if (err) {
+    console.error('Error writing file:', err);
+  } else {
+    console.log('File written successfully!');
+  }
+});
+nodefs.writeFile('faildstack.csv', failddownloadsstack, (err) => {
   if (err) {
     console.error('Error writing file:', err);
   } else {
@@ -29,14 +39,15 @@ async function downloadPDFandCalcCID(url, filename) {
 
     c = await heliafs.addByteStream(response.body);
     console.info("CID: ", c);
-    console.log('Added data to IPFS with CID:', c.toString()); 
+    console.log('Added data to IPFS with CID:', c.toString());
 
   } catch (error) {
     console.error("Error fetching data for " + filename + " or adding to IPFS:", error);
-    // TODO: add to retry stack 
+    nodefs.appendFile('faildstack.csv', "\n" + filename + ", " + url, (err) => {
+    });
   }
 
-  return c; 
+  return c;
 }
 
 async function processCSV(csvfilename) {
@@ -68,7 +79,10 @@ async function processCSV(csvfilename) {
   }
 }
 
-processCSV("data.csv");
+await processCSV("data.csv");
+
+
+
 
 
 
