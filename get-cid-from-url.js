@@ -9,47 +9,37 @@ import pLimit from "p-limit";
 const limit = pLimit(10);
 const outputciddata = 'document, cid';
 nodefs.writeFile('output.csv', outputciddata, (err) => {
-    if (err) {
-        console.error('Error writing file:', err);
-    } else {
-        console.log('File written successfully!');
-    }
+  if (err) {
+    console.error('Error writing file:', err);
+  } else {
+    console.log('File written successfully!');
+  }
 });
 
 async function downloadPDFandCalcCID(url, filename) {
   const helia = await createHeliaHTTP();
   const heliafs = unixfs(helia);
-
-  let r;
+  let c;
   try {
-    r = await fetch(url);
-    if (!r.ok) {
-      throw new Error(`HTTP error! status: ${r.status}`);   
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
+
+    c = await heliafs.addByteStream(response.body);
+    console.info("CID: ", c);
+    console.log('Added data to IPFS with CID:', c.toString()); 
+
   } catch (error) {
-    console.error('Error fetching data:', error);
+    console.error("Error fetching data for " + filename + " or adding to IPFS:", error);
+    // TODO: add to retry stack 
   }
 
-  const b = await r.blob();
-  const ab = await b.arrayBuffer();
-
-  // add a file and wrap in a directory
-  const c = await heliafs.addFile({
-    path: "./" + filename,
-    content: new Uint8Array(ab),
-    mode: 0x755,
-    mtime: {
-      secs: 10n,
-      nsecs: 0,
-    },
-  });
-  console.info("CID: ", c);
-  return c;
+  return c; 
 }
 
 async function processCSV(csvfilename) {
-
-
   try {
     nodefs
       .createReadStream(csvfilename)
@@ -69,8 +59,8 @@ async function processCSV(csvfilename) {
         //await helia.routing.provide(cid);
 
         // save to output file
-        nodefs.appendFile('output.csv', '\n' + filename  + ',' + await cid, (err) => {
-          });
+        nodefs.appendFile('output.csv', '\n' + filename + ',' + await cid, (err) => {
+        });
 
       });
   } catch (error) {
@@ -79,5 +69,8 @@ async function processCSV(csvfilename) {
 }
 
 processCSV("data.csv");
+
+
+
 
 
