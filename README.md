@@ -18,3 +18,8 @@ if all files are stored in the node's memory, much RAM is needed
 
 ## Known Issues
 Failure on fetch 19983: 1949109,bafybeib6psc33ohgorrvxvhiy4lp2rm5bdcpadntqdczj7zqo7fugekvui -- unable to verify the first certificate
+
+## Run as Container
+docker build -t get-cids .
+docker run -p 3000:3000 get-cids
+
