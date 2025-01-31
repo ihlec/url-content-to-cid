@@ -23,3 +23,8 @@ Failure on fetch 19983: 1949109,bafybeib6psc33ohgorrvxvhiy4lp2rm5bdcpadntqdczj7z
 docker build -t get-cids .
 docker run -p 3000:3000 get-cids
 
+## Run in Docker Swarm
+docker swarm init
+docker stack deploy -c docker-compose.yml get-cids-stack
+docker service scale get-cids-stack_get-cids-service=5  
+
