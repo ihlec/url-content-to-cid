@@ -23,7 +23,8 @@
         "helia": "^5.0.0",
         "libp2p": "^2.1.6",
         "node-fetch": "^3.3.2",
-        "p-limit": "^6.1.0"
+        "p-limit": "^6.1.0",
+        "redis": "^4.7.0"
     },
     "devDependencies": {
         "test-ipfs-example": "^1.0.0"

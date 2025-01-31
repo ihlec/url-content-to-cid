@@ -5,7 +5,7 @@ services:
     ports:
       - "3000:3000"  
     deploy:
-      replicas: 3  # Number of container replicas (instances)
+      replicas: 1  # Number of worker replicas (instances)
       resources:
         limits:
           cpus: '0.5' 
@@ -21,7 +21,8 @@ services:
       - REDIS_PORT=6379
 
   redis:
-    image: redis:latest  
+    image: redis:latest
+    container_name: redis
     ports:
       - "6379:6379" # Only needed if you want to access Redis from outside the swarm (for development/management)
     deploy:
