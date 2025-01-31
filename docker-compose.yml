@@ -14,3 +14,28 @@ services:
         condition: on-failure
         delay: 5s
         max_attempts: 3
+    depends_on:  
+      - redis
+    environment: 
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+
+  redis:
+    image: redis:latest  
+    ports:
+      - "6379:6379" # Only needed if you want to access Redis from outside the swarm (for development/management)
+    deploy:
+      replicas: 1 # We want only one instance to aggregate the workers data 
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 4096M # adjust to your host capabilities
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+    # volumes: # Persist data (optional, but recommended for production)
+    #   - redis_data:/data
+
+# volumes:
+#   redis_data: # Named volume for Redis data persistence
