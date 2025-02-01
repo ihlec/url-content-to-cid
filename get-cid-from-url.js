@@ -64,6 +64,10 @@ for await (const key of client.scanIterator({ MATCH: 'TODO:*'})) {
 // Iterate through TODOs (clean-up)
 for await (const key of client.scanIterator({ MATCH: 'TRY:*'})) {
   const v = await client.get(key);
+  if (v == null){
+    // some other client already delted it. Its in DONE now.
+    continue;
+}
   console.log(key, v);
 
   // TRY Download

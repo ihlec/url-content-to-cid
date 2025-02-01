@@ -14,7 +14,7 @@ await client.connect();
 
 console.log("connected to redis");
 
-
+// Write Results File
 for await (const key of client.scanIterator({ MATCH: "DONE:*" })) {
   const v = await client.get(key);
   console.log(key, v);
@@ -28,3 +28,19 @@ nodefs.writeFile("output.csv", outputciddata, (err) => {
     console.log("File written successfully!");
   }
 });
+
+// Write Retrieval-Fails File
+for await (const key of client.scanIterator({ MATCH: "TRY:*" })) {
+    const v = await client.get(key);
+    console.log(key, v);
+    failddownloadsstack += "\n" + key + "," + v;
+  }
+  
+  nodefs.writeFile("failed-retrievals.csv", failddownloadsstack, (err) => {
+    if (err) {
+      console.error("Error writing file:", err);
+    } else {
+      console.log("File written successfully!");
+    }
+  });
+
