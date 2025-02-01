@@ -8,6 +8,7 @@
     "scripts": {
         "start": "node get-cid-from-url.js",
         "upload": "node task-uploader.js",
+        "results": "node results-downloader.js",
         "test": "test-node-example test/*"
     },
     "dependencies": {

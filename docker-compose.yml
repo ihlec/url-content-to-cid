@@ -2,14 +2,19 @@ version: "3.9"
 services:
   get-cids-service:
     image: get-cids 
+    logging:
+      driver: json-file
+      options: 
+        max-size: "10m"
+        max-file: "5"
     ports:
       - "3000:3000"  
     deploy:
-      replicas: 1  # Number of worker replicas (instances)
+      replicas: 0  # Number of worker replicas (instances)
       resources:
         limits:
-          cpus: '0.5' 
-          memory: 2048M 
+          cpus: '1.0' 
+          memory: 1024M 
       restart_policy:
         condition: on-failure
         delay: 5s
@@ -29,7 +34,7 @@ services:
       replicas: 1 # We want only one instance to aggregate the workers data 
       resources:
         limits:
-          cpus: '0.5'
+          cpus: '2'
           memory: 4096M # adjust to your host capabilities
       restart_policy:
         condition: on-failure

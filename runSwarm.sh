@@ -6,6 +6,7 @@ docker build -t get-cids .
 echo "Deploying Stack to Swarm..."
 docker stack deploy -c docker-compose.yml get-cids-stack
 
-sleep 2
+sleep 3
 
-docker ps
+npm run upload
+

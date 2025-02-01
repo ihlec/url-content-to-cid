@@ -4,15 +4,8 @@ import * as nodefs from "node:fs";
 import fetch from "node-fetch";
 import redis from 'redis';
 
-// prevent rate limit errors with pLimit
-const outputciddata = 'document, cid';
-let failddownloadsstack = 'filename , url';
-
-// =============================================
-// Output to Redis with RedisDB for persistency
-
-const client = createClient({ url: 'redis://redis:6379' }); //Docker
-// const client = redis.createClient({ url: 'redis://127.0.0.1:6379' });
+const client = redis.createClient({ url: 'redis://redis:6379' }); //Docker
+//const client = redis.createClient({ url: 'redis://127.0.0.1:6379' });
 
 client.on('error', err => console.log('Redis Client Error', err));
 await client.connect();
@@ -34,8 +27,6 @@ async function downloadPDFandCalcCID(url, filename) {
 
   } catch (error) {
     console.error("Error fetching data for " + filename + " or adding to IPFS:", error);
-    nodefs.appendFile('faildstack.csv', "\n" + filename + ", " + url, (err) => {
-    });
   }
 
   return c;
@@ -44,6 +35,10 @@ async function downloadPDFandCalcCID(url, filename) {
 // Iterate through TODOs
 for await (const key of client.scanIterator({ MATCH: 'TODO:*'})) {
   const v = await client.get(key);
+  if (v == null){
+    // some other client already delted it. Its in TRY now.
+    continue;
+  }
   console.log(key, v);
 
   // Add to TRY

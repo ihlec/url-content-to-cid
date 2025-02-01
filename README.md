@@ -30,6 +30,8 @@ docker stack rm get-cids-stack
 
 ### Swarm Workflow
 sh runSwarm.sh
-npm run upload
-get-cids-stack_get-cids-service=20
+docker service scale get-cids-stack_get-cids-service=12
+npm run results
 
+#### Docker network overload
+docker stop $(docker ps -aq)
