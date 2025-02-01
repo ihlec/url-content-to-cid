@@ -11,8 +11,8 @@ let failddownloadsstack = 'filename , url';
 // =============================================
 // Output to Redis with RedisDB for persistency
 
-//const client = createClient({ url: 'redis://redis:6379' }); //Docker
-const client = redis.createClient({ url: 'redis://127.0.0.1:6379' });
+const client = createClient({ url: 'redis://redis:6379' }); //Docker
+// const client = redis.createClient({ url: 'redis://127.0.0.1:6379' });
 
 client.on('error', err => console.log('Redis Client Error', err));
 await client.connect();

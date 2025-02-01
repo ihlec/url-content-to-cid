@@ -28,9 +28,8 @@ docker ps
 docker attach <ID>
 docker stack rm get-cids-stack
 
-## Known Issues
+### Swarm Workflow
+sh runSwarm.sh
+npm run upload
+get-cids-stack_get-cids-service=20
 
-1. Every worker has a copy of the data.csv -- this is bad, as already found cids are not removed from the todo list -- therefore the worker spamms redis at the beginning to catch up on the list.
-2. There is no locking or semaphore -- workers may attempt to download files in parallel
-3. There is no retry on filed downloads yet -- only logging of fails in faildstack.csv
-4. I want to introduce pseudo namespaces to the redis keys to seperate TODO, DONE, and TRY entries.
