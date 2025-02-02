@@ -43,7 +43,7 @@ async function processCSV(csvfilename) {
 }
 
 await processCSV("data.csv"); 
-
+process.exit(0);
 
 
 

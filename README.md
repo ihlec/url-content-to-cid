@@ -1,37 +1,29 @@
 # url-content-to-cid
 Fetches a files from URLs and saves the CID
 
-## Get Started
-npm install
-
-npm start
-
 Input file: data.csv
-Output file: output.csv
+Output files: output.csv, failed-retrievals.csv
 
 ## Experimental
-Pinning and Provide currently removed
+Pinning currently removed
 
-## Tips
-tweak the pLimit value when running into rate limits
-if all files are stored in the node's memory, much RAM is needed
-
-## Run as Container
+## Build the Container
 docker build -t get-cids .
-docker run -p 3000:3000 get-cids
 
-### Run in Docker Swarm with Redis Cache
+### Swarm Workflow / run Task with MULTIPLE (8) Container
+sh runSwarm.sh
+npm run results
+docker stack rm get-cids-stack
+
+### Scaling
+You can use the following command at any point to increase the replicas/workers:
+docker service scale get-cids-stack_get-cids-service=12
+
+### Usefull commands for Docker Swarm
 docker swarm init
 docker stack deploy -c docker-compose.yml get-cids-stack
 docker service scale get-cids-stack_get-cids-service=5
 docker ps
 docker attach <ID>
 docker stack rm get-cids-stack
-
-### Swarm Workflow
-sh runSwarm.sh
-docker service scale get-cids-stack_get-cids-service=12
-npm run results
-
-#### Docker network overload
 docker stop $(docker ps -aq)

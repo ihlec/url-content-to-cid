@@ -10,3 +10,6 @@ sleep 3
 
 npm run upload
 
+sleep 2
+
+docker service scale get-cids-stack_get-cids-service=8 
