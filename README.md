@@ -4,9 +4,6 @@ Fetches a files from URLs and saves the CID
 Input file: data.csv
 Output files: output.csv, failed-retrievals.csv
 
-## Experimental
-Pinning currently removed
-
 ## Build the Container
 docker build -t get-cids .
 
@@ -27,3 +24,7 @@ docker ps
 docker attach <ID>
 docker stack rm get-cids-stack
 docker stop $(docker ps -aq)
+
+## Experimental
+Pinning currently removed
+sleep 5 in runSwarm.sh because of task-uploader not exiting

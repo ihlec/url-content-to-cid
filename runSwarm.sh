@@ -8,8 +8,6 @@ docker stack deploy -c docker-compose.yml get-cids-stack
 
 sleep 3
 
-npm run upload
-
-sleep 2
+npm run upload & sleep 5
 
 docker service scale get-cids-stack_get-cids-service=8 
