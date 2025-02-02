@@ -19,7 +19,17 @@ async function pushToRedis(row){
   const filename = row["document"];
 
   // check redis
-  if (await client.get(filename)) {
+  if (await client.get("TODO:"+filename)) {
+    console.log('CID already know');
+    return;
+  }
+
+  if (await client.get("DONE:"+filename)) {
+    console.log('CID already know');
+    return;
+  }
+
+  if (await client.get("TRY:"+filename)) {
     console.log('CID already know');
     return;
   }
