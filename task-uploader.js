@@ -1,15 +1,6 @@
 import * as nodefs from "node:fs";
 import { parse } from "csv-parse";
-import pLimit from "p-limit";
 import { createClient } from 'redis';
-
-// prevent rate limit errors with pLimit
-const limit = pLimit(10);
-const outputciddata = 'document, cid';
-let failddownloadsstack = 'filename , url';
-
-// =============================================
-// Output to Redis with RedisDB for persistency
 
 const client = createClient({ url: 'redis://127.0.0.1:6379' }); // for execution on host machine NOT Docker
 
